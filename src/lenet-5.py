@@ -4,31 +4,30 @@
 """
 File Description...
 lenet-5 网络测试实验
+LeNet5 implements on tensorflow
 """
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
 from tensorflow.examples.tutorials.mnist import input_data
 
-'''
-    LeNet5 implments on tensorflow
-'''
-
 
 class LeNet5:
     def __init__(self):
-        self.mnist = input_data.read_data_sets('./LeNet5/MNIST_data', one_hot=True)
+        self.mnist = input_data.read_data_sets('./Data/MNIST_data', one_hot=True)
 
-    def softmax(self, x):
-        '''
+    @staticmethod
+    def softmax(x):
+        """
             softmax function implements with numpy
             parameters:
                 x: a numpy array
-        '''
+        """
         return np.exp(x) / np.sum(np.exp(x), axis=1, keepdims=True)
 
     # LeNet-5 model
-    def inference(self, input_tensor):
+    @staticmethod
+    def inference(input_tensor):
         with tf.variable_scope("layer1-conv1"):
             conv1_weight = tf.get_variable(name="conv1_variable", shape=[5, 5, 1, 6],
                                            initializer=tf.truncated_normal_initializer())
@@ -82,7 +81,7 @@ class LeNet5:
                 costs.append(loss)
                 if i % 100 == 0:
                     learning_rate = learning_rate * learning_rate_decay ** (i / 100)
-                    print("loss after %d iteration is : " % (i) + str(loss))
+                    print("loss after %d iteration is : " % i + str(loss))
             saver.save(sess, "./minstModel/model.ckpt")
         plt.figure()
         plt.title("loss")
