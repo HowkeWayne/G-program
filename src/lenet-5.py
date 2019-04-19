@@ -6,15 +6,26 @@ File Description...
 lenet-5 网络测试实验
 LeNet5 implements on tensorflow
 """
+
+import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
-import matplotlib.pyplot as plt
 from tensorflow.examples.tutorials.mnist import input_data
+import os
+
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"  # TF只显示 error 信息
 
 
 class LeNet5:
     def __init__(self):
-        self.mnist = input_data.read_data_sets('./Data/MNIST_data', one_hot=True)
+        print('当前tensortflow版本:{0}'.format(tf.__version__))
+        print('当前keras版本:{0}'.format(tf.keras.__version__))
+        # 注意path是绝对路径
+        self.mnist = input_data.read_data_sets('./MNIST_data', one_hot=True)  # deprecated
+        # self.mnist = tf.keras.datasets.mnist
+        # (self.mnist.train_image, self.mnist.train_label), (self.mnist.test_image, self.mnist.test_label) \
+        #     = self.mnist.load_data(path=os.getcwd() + r'\Data\mnist.npz')
+        pass
 
     @staticmethod
     def softmax(x):
@@ -67,6 +78,7 @@ class LeNet5:
         x = tf.placeholder(dtype=tf.float32, shape=[None, 28, 28, 1], name="x")
         y = tf.placeholder(dtype=tf.float32, shape=[None, 10], name="y")
         output = self.inference(x)
+        # (Softmax->交叉熵)->均值误差
         cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=output, labels=y, name="loss"))
         train_step = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
 
