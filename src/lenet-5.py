@@ -16,6 +16,7 @@ import os
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"  # TF只显示 error 信息
 
 
+
 class LeNet5:
     def __init__(self):
         print('当前tensortflow版本:{0}'.format(tf.__version__))
@@ -85,7 +86,9 @@ class LeNet5:
         train_step = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
 
         saver = tf.train.Saver()
+        file_writer = tf.summary.FileWriter('./logs')
         with tf.Session() as sess:
+            file_writer.add_graph(sess.graph)
             init = tf.global_variables_initializer()
             sess.run(init)
             for i in range(iter_num):
@@ -117,8 +120,6 @@ class LeNet5:
             saver.restore(sess, "./minstModel/model.ckpt")
             output = sess.run(output, feed_dict={x: images})
             y_pred = np.argmax(self.softmax(output), axis=1).reshape(-1, 1)
-            # print("y_pred shape is " + str(y_pred.shape))
-            what = y_pred == y_true
             accuracy = np.mean(y_pred == y_true)
             print("accuracy is " + str(accuracy))
 
@@ -134,25 +135,23 @@ class LeNet5:
             y_pred = np.argmax(self.softmax(predict), axis=1).reshape(-1, 1)
             print("预测结果为：" + str(y_pred))
 
-    #
-
 
 if __name__ == "__main__":
     model = LeNet5()
     # train model
-    # model.train(iter_num=1000, batch_size=512, learning_rate=0.1)
+    model.train(iter_num=1000, batch_size=512, learning_rate=0.1)
 
-    # evaluate model on trainSet
-    images_train = model.mnist.train.images.reshape([-1, 28, 28, 1])
-    y_true_train = np.argmax(model.mnist.train.labels, axis=1).reshape(-1, 1)
-    model.evaluate(images_train, y_true_train)  # accuracy is 0.9939818181818182
-
-    # evaluate model on testSet
-    images_test = model.mnist.test.images.reshape([-1, 28, 28, 1])
-    y_true_test = np.argmax(model.mnist.test.labels, axis=1).reshape(-1, 1)
-    model.evaluate(images_test, y_true_test)  # accuracy is 0.9897
-
-    # evaluate model on validate
-    images_validation = model.mnist.validation.images.reshape([-1, 28, 28, 1])
-    y_true_validation = np.argmax(model.mnist.validation.labels, axis=1).reshape(-1, 1)
-    model.evaluate(images_validation, y_true_validation)  # accuracy is 0.9648
+    # # evaluate model on trainSet
+    # images_train = model.mnist.train.images.reshape([-1, 28, 28, 1])
+    # y_true_train = np.argmax(model.mnist.train.labels, axis=1).reshape(-1, 1)
+    # model.evaluate(images_train, y_true_train)  # accuracy is 0.9939818181818182
+    #
+    # # evaluate model on testSet
+    # images_test = model.mnist.test.images.reshape([-1, 28, 28, 1])
+    # y_true_test = np.argmax(model.mnist.test.labels, axis=1).reshape(-1, 1)
+    # model.evaluate(images_test, y_true_test)  # accuracy is 0.9897
+    #
+    # # evaluate model on validate
+    # images_validation = model.mnist.validation.images.reshape([-1, 28, 28, 1])
+    # y_true_validation = np.argmax(model.mnist.validation.labels, axis=1).reshape(-1, 1)
+    # model.evaluate(images_validation, y_true_validation)  # accuracy is 0.9648
