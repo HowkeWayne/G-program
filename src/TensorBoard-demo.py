@@ -189,13 +189,14 @@ def train():
 
 
 def main(_):
-    if tf.gfile.Exists(FLAGS.log_dir):
-        tf.gfile.DeleteRecursively(FLAGS.log_dir)
-    tf.gfile.MakeDirs(FLAGS.log_dir)
+    # if tf.gfile.Exists(FLAGS.log_dir):
+    #     tf.gfile.DeleteRecursively(FLAGS.log_dir)
+    # tf.gfile.MakeDirs(FLAGS.log_dir)
     train()
 
 
 if __name__ == '__main__':
+    # 定义参数
     parser = argparse.ArgumentParser()
     parser.add_argument('--fake_data', nargs='?', const=True, type=bool,
                         default=False,
