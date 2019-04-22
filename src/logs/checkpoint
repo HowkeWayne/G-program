@@ -1,0 +1,2 @@
+model_checkpoint_path: "F:\\WorkSpc\\G-program\\src\\logs\\model.ckpt-1"
+all_model_checkpoint_paths: "F:\\WorkSpc\\G-program\\src\\logs\\model.ckpt-1"
