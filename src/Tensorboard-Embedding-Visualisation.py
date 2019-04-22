@@ -25,7 +25,8 @@ visualise…
 
 There are three functions which are quite important for the visualisation:
 
-create_sprite_image: neatly aligns image sprits on a square canvas, as specified in the images section here: (https://www.tensorflow.org/get_started/embedding_viz)
+create_sprite_image: neatly aligns image sprits on a square canvas, as specified in the images section here: 
+(https://www.tensorflow.org/get_started/embedding_viz)
 vector_to_matrix_mnist: MNIST characters are loaded as a vector, not as an image… this function turns them into images 
 invert_grayscale: matplotlib treats a 0 as black, and a 1 as white. The tensorboard embeddings visualisation looks way 
 better with white backgrounds, so we invert them for the visualisation
@@ -47,8 +48,7 @@ def create_sprite_image(images):
             this_filter = i * n_plots + j
             if this_filter < images.shape[0]:
                 this_img = images[this_filter]
-                spriteimage[i * img_h:(i + 1) * img_h,
-                j * img_w:(j + 1) * img_w] = this_img
+                spriteimage[i * img_h:(i + 1) * img_h, j * img_w:(j + 1) * img_w] = this_img
 
     return spriteimage
 
