@@ -1,2 +1,6 @@
-model_checkpoint_path: "F:\\WorkSpc\\G-program\\src\\logs\\model.ckpt-1"
-all_model_checkpoint_paths: "F:\\WorkSpc\\G-program\\src\\logs\\model.ckpt-1"
+model_checkpoint_path: "F:\\WorkSpc\\G-program\\src\\logs\\model.ckpt-800"
+all_model_checkpoint_paths: "F:\\WorkSpc\\G-program\\src\\logs\\model.ckpt-500"
+all_model_checkpoint_paths: "F:\\WorkSpc\\G-program\\src\\logs\\model.ckpt-600"
+all_model_checkpoint_paths: "F:\\WorkSpc\\G-program\\src\\logs\\model.ckpt-700"
+all_model_checkpoint_paths: "F:\\WorkSpc\\G-program\\src\\logs\\model.ckpt-800"
+all_model_checkpoint_paths: "F:\\WorkSpc\\G-program\\src\\logs\\model.ckpt-900"

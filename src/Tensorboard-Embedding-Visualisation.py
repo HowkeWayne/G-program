@@ -69,6 +69,8 @@ if __name__ == '__main__':
 
     mnist = input_data.read_data_sets("MNIST_data/", one_hot=False)
     batch_xs, batch_ys = mnist.train.next_batch(TO_EMBED_COUNT)
+    x= mnist.test.images[:1024]
+    y= mnist.test.labels[:1024]
 
     embedding_var = tf.Variable(batch_xs, name=NAME_TO_VISUALISE_VARIABLE)
     summary_writer = tf.summary.FileWriter(LOG_DIR)
@@ -76,14 +78,11 @@ if __name__ == '__main__':
     config = projector.ProjectorConfig()
     embedding = config.embeddings.add()
     embedding.tensor_name = embedding_var.name
-
     # Specify where you find the metadata
     embedding.metadata_path = path_for_mnist_metadata  # 'metadata.tsv'
-
     # Specify where you find the sprite (we will create this later)
     embedding.sprite.image_path = path_for_mnist_sprites  # 'mnistdigits.png'
     embedding.sprite.single_image_dim.extend([28, 28])
-
     # Say that you want to visualise the embeddings
     projector.visualize_embeddings(summary_writer, config)
 
@@ -99,7 +98,7 @@ if __name__ == '__main__':
     sprite_image = create_sprite_image(to_visualise)
 
     plt.imsave(path_for_mnist_sprites, sprite_image, cmap='gray')
-    plt.imshow(sprite_image, cmap='gray')
+    # plt.imshow(sprite_image, cmap='gray')
 
     with open(path_for_mnist_metadata, 'w') as f:
         f.write("Index\tLabel\n")

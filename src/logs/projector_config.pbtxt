@@ -1,5 +1,5 @@
 embeddings {
-  tensor_name: "mnistembedding:0"
+  tensor_name: "mnistEmbedding:0"
   metadata_path: "F:\\WorkSpc\\G-program\\src\\logs\\metadata.tsv"
   sprite {
     image_path: "F:\\WorkSpc\\G-program\\src\\logs\\mnistdigits.png"
