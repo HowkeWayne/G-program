@@ -120,6 +120,18 @@ class LeNet5:
             output = tf.add(tf.matmul(fc2, output_variable), output_bias)  # [batch_size, 10]
         return output, fc2
 
+    def variable_summaries(self, var):
+        """Attach a lot of summaries to a Tensor (for TensorBoard visualization)."""
+        with tf.name_scope('summaries'):
+            mean = tf.reduce_mean(var)
+            tf.summary.scalar('mean', mean)
+            with tf.name_scope('stddev'):
+                stddev = tf.sqrt(tf.reduce_mean(tf.square(var - mean)))
+            tf.summary.scalar('stddev', stddev)
+            tf.summary.scalar('max', tf.reduce_max(var))
+            tf.summary.scalar('min', tf.reduce_min(var))
+            tf.summary.histogram('histogram', var)
+
     # training model
     def train(self, iter_num=500, batch_size=400, learning_rate=0.1, learning_rate_decay=0.85):
         costs = []
@@ -133,24 +145,24 @@ class LeNet5:
 
         saver = tf.train.Saver()  # 添加参数存储器
         file_writer = tf.summary.FileWriter(LOG_DIR)
-        # with tf.Session() as sess:
-        #     file_writer.add_graph(sess.graph)
-        #     init = tf.global_variables_initializer()
-        #     sess.run(init)
-        #     for i in range(iter_num):
-        #         batch_xs, batch_ys = self.mnist.train.next_batch(batch_size)
-        #         batch_xs = batch_xs.reshape([-1, 28, 28, 1])
-        #         loss, _ = sess.run([cross_entropy, train_step], feed_dict={x: batch_xs, y: batch_ys})
-        #         costs.append(loss)
-        #         if i % 100 == 0:
-        #             learning_rate = learning_rate * learning_rate_decay ** (i / 100)
-        #             print("loss after %d iteration is : " % i + str(loss))
-        #             batch_xs = self.mnist.validation.images[:1024]
-        #             # batch_ys = self.mnist.validation.labels[:1024]
-        #             batch_xs = batch_xs.reshape([-1, 28, 28, 1])
-        #             sess.run(assignment, feed_dict={x: batch_xs, y: self.mnist.validation.labels[:1024]})
-        #             saver.save(sess, os.path.join(LOG_DIR, "model.ckpt"), i)
-        #     # saver.save(sess, os.path.join(LOG_DIR, "model.ckpt"))
+        with tf.Session() as sess:
+            file_writer.add_graph(sess.graph)
+            init = tf.global_variables_initializer()
+            sess.run(init)
+            for i in range(iter_num):
+                batch_xs, batch_ys = self.mnist.train.next_batch(batch_size)
+                batch_xs = batch_xs.reshape([-1, 28, 28, 1])
+                loss, _ = sess.run([cross_entropy, train_step], feed_dict={x: batch_xs, y: batch_ys})
+                costs.append(loss)
+                if i % 100 == 0:
+                    learning_rate = learning_rate * learning_rate_decay ** (i / 100)
+                    print("loss after %d iteration is : " % i + str(loss))
+                    batch_xs = self.mnist.validation.images[:1024]
+                    # batch_ys = self.mnist.validation.labels[:1024]
+                    batch_xs = batch_xs.reshape([-1, 28, 28, 1])
+                    sess.run(assignment, feed_dict={x: batch_xs, y: self.mnist.validation.labels[:1024]})
+                    saver.save(sess, os.path.join(LOG_DIR, "model.ckpt"), i)
+            # saver.save(sess, os.path.join(LOG_DIR, "model.ckpt"))
 
         to_visualise = self.mnist.validation.images[:1024]
         labels = [np.argmax(label) for label in self.mnist.validation.labels[:1024]]
