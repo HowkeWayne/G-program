@@ -25,7 +25,7 @@ class Block(collections.namedtuple('Block', ['scope', 'unit_fn', 'args'])):
 
 
 # 定义相关函数
-# 定义降采样方法
+# 定义降采样方法  采用1x1卷积核做Pooling
 def subsample(inputs, factor, scope=None):
     """
     :param inputs: 输入数据
