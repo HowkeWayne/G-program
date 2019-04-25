@@ -63,6 +63,7 @@ ResNet-101 for semantic segmentation into 21 classes:
 
 slim = tf.contrib.slim
 resnet_arg_scope = resnet_utils.resnet_arg_scope
+slin = None
 
 
 @slim.add_arg_scope
